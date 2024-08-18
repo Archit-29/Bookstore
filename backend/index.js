@@ -31,11 +31,11 @@ if (process.env.NODE_ENV === "production") {
    const dirPath = path.resolve();
    
    // Serve static files from the "dist" directory in the "Frontend" folder
-   app.use(express.static(path.join(dirPath, "Frontend", "dist")));
+   app.use(express.static(path.join(dirPath, "frontend", "dist")));
    
    // Serve the index.html file for all routes (SPA support)
    app.get("*", (req, res) => {
-     res.sendFile(path.resolve(dirPath, "Frontend", "dist", "index.html"));
+     res.sendFile(path.resolve(dirPath, "frontend", "dist", "index.html"));
    });
  }
  
