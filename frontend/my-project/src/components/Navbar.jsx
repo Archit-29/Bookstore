@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import Login from './Login';
+import Logout from './Logout';
+import { useAuth } from '../context/AuthProvider';
 function Navbar() {
 
-
+  const [authUser,setAuthUser]=useAuth();
   const[theme,setTheme]=useState(localStorage.getItem('theme')?localStorage.getItem('theme'):'dark')
   const element=document.documentElement;
   useEffect(()=>{
@@ -42,7 +44,7 @@ function Navbar() {
     <>
     <div className={`max-w-screen-2xl container mx-auto md:px-20 px-4 dark:bg-slate-900 dark:text-white fixed top-0 left-0 right-0 z-50
       ${sticky
-        ? "sticky-navbar shadow-md dark:bg-slate-600 dark:text-white bg-base-300 duration-300 transition-all ease-in-out"
+        ? "fixed-navbar shadow-md dark:bg-slate-800 dark:text-white bg-base-300 duration-300 transition-all ease-in-out"
         :""
       }`}>
     <div className="navbar">
@@ -79,7 +81,7 @@ function Navbar() {
 
  <div className='hidden md:block'> 
     <label className="input px-3 py-2 border rounded-md flex items-center gap-2">
-  <input type="text" className="grow outline-none" placeholder="Search" />
+  <input type="text" className="grow outline-none rounded-md px-1 dark:bg-slate-900 dark:text-white" placeholder="Search" />
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 16 16"
@@ -95,7 +97,10 @@ function Navbar() {
 
 <label className="swap swap-rotate">
   {/* this hidden checkbox controls the state */}
-  <input type="checkbox" className="theme-controller" value="synthwave" />
+  <input type="checkbox" className="theme-controller" value="synthwave" 
+  onChange={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+  checked={theme === 'dark'}
+  />
 
   {/* sun icon */}
   <svg
@@ -118,13 +123,19 @@ function Navbar() {
   </svg>
 </label>
 
-
+{
+  authUser?<Logout/>
+  :
   <div className="">
     <a className="bg-black text-white px-3 py-2 rounded-md hover:bg-slate-800 cursor-pointer duration-300"
-    onClick={()=>document.getElementById("my_modal_3").showModal()}>
-      Login</a>
+    onClick={()=>document.getElementById("my_modal_3").showModal()}
+>   
+Login
+</a>
     <Login/>
-  </div>
+  </div> 
+}
+
   </div>
 </div>
 </div>
